@@ -190,6 +190,8 @@ java -jar openapi-generator-cli.jar validate `
 
 ### Create a simple SDK
 
+#### C# / csharp
+
 To create a simple SDK based on the [copilot-080-preview.yaml](./src/openapi-specs/copilot-080-preview.yaml) specifications, you can use the following command.
 
 ```powershell
@@ -206,4 +208,24 @@ java -jar openapi-generator-cli.jar generate `
     -i ./src/openapi-specs/mds-080-preview.yaml `
     -g csharp `
     -o ./src/generated/mds/csharp
+```
+
+#### Python
+
+To create a simple SDK based on the [copilot-080-preview.yaml](./src/openapi-specs/copilot-080-preview.yaml) specifications, you can use the following command.
+
+```powershell
+java -jar openapi-generator-cli.jar generate `
+    -i ./src/openapi-specs/copilot-080-preview.yaml `
+    -g python `
+    -o ./src/generated/copilot/python
+```
+
+To create a simple SDK based on the [mds-080-preview.yaml](./src/openapi-specs/mds-080-preview.yaml) specifications, you can use the following command.
+
+```powershell
+java -jar openapi-generator-cli.jar generate `
+    -i ./src/openapi-specs/mds-080-preview.yaml `
+    -g python `
+    -o ./src/generated/mds/python
 ```
