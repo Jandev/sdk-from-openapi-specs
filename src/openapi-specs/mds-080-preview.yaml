@@ -111,22 +111,12 @@ paths:
           schema:
             type: string
             default: 2024-09-30-preview
-      requestBody:
-        description: ''
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/DataVersionRequest'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DataVersionRequest'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/DataVersionRequest'
-          application/*+json:
-            schema:
-              $ref: '#/components/schemas/DataVersionRequest'
-        required: true
+        - name: versionId
+          in: query
+          description: The version to delete
+          required: true
+          schema:
+            type: string
       responses:
         '202':
           description: Accepted
@@ -1513,7 +1503,9 @@ components:
     JToken:
       type: array
       items:
-        $ref: '#/components/schemas/JToken'
+        $ref: '#/components/schemas/ChildJToken'
+    ChildJToken:
+      type: string
     JobStatusResponse:
       type: object
       properties:
