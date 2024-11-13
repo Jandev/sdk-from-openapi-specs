@@ -229,3 +229,16 @@ java -jar openapi-generator-cli.jar generate `
     -g python `
     -o ./src/generated/mds/python
 ```
+
+## Templates
+
+The Open API Generator output can be customized using Templates.  
+The default templates can be extracted with the following commands:
+
+```powershell
+# For C#
+java -jar openapi-generator-cli.jar author template -g csharp -o ./src/templates/ootb/csharp
+
+# For Python
+java -jar openapi-generator-cli.jar author template -g python -o ./src/templates/ootb/python
+```
