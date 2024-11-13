@@ -43,6 +43,10 @@ In a new Terminal session, you should be able to run `mvn --version` to see whic
 
 The easiest way to work with the generator is [by installing the JAR file](https://openapi-generator.tech/docs/installation#jar) in the root of this repository.
 
+```powershell
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.9.0/openapi-generator-cli-7.9.0.jar
+```
+
 You should be able to run the following command and get details on the generator.
 
 ```powershell
@@ -207,7 +211,8 @@ To create a simple SDK based on the [mds-080-preview.yaml](./src/openapi-specs/m
 java -jar openapi-generator-cli.jar generate `
     -i ./src/openapi-specs/mds-080-preview.yaml `
     -g csharp `
-    -o ./src/generated/mds/csharp
+    -o ./src/generated/mds/csharp `
+    -t ./src/templates/mds/csharp
 ```
 
 #### Python
