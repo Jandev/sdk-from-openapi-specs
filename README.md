@@ -212,7 +212,7 @@ java -jar openapi-generator-cli.jar generate `
     -i ./src/openapi-specs/mds-080-preview.yaml `
     -g csharp `
     -o ./src/generated/mds/csharp `
-    -t ./src/templates/mds/csharp
+    -t ./src/openapi3/templates/mds/csharp
 ```
 
 #### Python
@@ -242,8 +242,8 @@ The default templates can be extracted with the following commands:
 
 ```powershell
 # For C#
-java -jar openapi-generator-cli.jar author template -g csharp -o ./src/templates/ootb/csharp
+java -jar openapi-generator-cli.jar author template -g csharp -o ./src/openapi3/templates/ootb/csharp
 
 # For Python
-java -jar openapi-generator-cli.jar author template -g python -o ./src/templates/ootb/python
+java -jar openapi-generator-cli.jar author template -g python -o ./src/openapi3/templates/ootb/python
 ```
