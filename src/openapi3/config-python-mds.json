@@ -1,0 +1,19 @@
+{
+    "useDateTimeOffset": false,
+    "returnICollection": false,
+    "validatable": false,
+    "packageName" : "Microsoft.Industry.Manufacturing.Sdk",
+    "outputDir" : "./src/generated/mds/python",
+    "inputSpec" : "./src/openapi-specs/mds-080-preview.yaml", 
+    "packageVersion" : "1.0.0-preview",
+    "packageDescription" : "Official .NET SDK for the Microsoft Cloud for Industries - Manufacturing data solutions in Microsoft Fabric",
+    "packageTitle" : "Official .NET SDK for the Manufacturing data solutions in Microsoft Fabric",
+    "packageCompany" : "Microsoft",
+    "packageAuthors" : "Microsoft",
+    "packageTags" : "microsoft industry manufacturing api",
+    "packageCopyright" : "Microsoft",
+    "gitHost": "github.com",
+    "gitUserId" : "jandev",
+    "gitRepoId" : "sdk-from-openapi-specs", 
+    "targetFramework" : "net8.0"
+}
