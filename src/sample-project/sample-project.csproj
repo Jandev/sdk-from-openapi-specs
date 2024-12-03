@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\generated\copilot\csharp\src\Microsoft.Industry.Manufacturing.Copilot.Sdk\Microsoft.Industry.Manufacturing.Copilot.Sdk.csproj" />
+  </ItemGroup>
+
 </Project>
