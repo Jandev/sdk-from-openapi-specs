@@ -152,64 +152,44 @@ namespace Example
         public static void Main()
         {
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
-            Configuration config = new Configuration();
-            config.BasePath = "{{{basePath}}}";
-            {{#hasAuthMethods}}
-            {{#authMethods}}
-            {{#isBasicBasic}}
-            // Configure HTTP basic authorization: {{{name}}}
-            config.Username = "YOUR_USERNAME";
-            config.Password = "YOUR_PASSWORD";
-            {{/isBasicBasic}}
-            {{#isBasicBearer}}
-            // Configure Bearer token for authorization: {{{name}}}
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-            {{/isBasicBearer}}
-            {{#isApiKey}}
-            // Configure API key authorization: {{{name}}}
-            config.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
-            {{/isApiKey}}
-            {{#isOAuth}}
-            // Configure OAuth2 access token for authorization: {{{name}}}
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-            {{/isOAuth}}
-            {{/authMethods}}
+            var configuration = new Configuration
+            {
+                BasePath = instanceToUse.BaseUrl,
+                MdsApplicationIdUri = instanceToUse.ApplicationIdUri,
+                // Leave the below properties empty if you want to use a System Managed Identity or local identity. It will use the `DefaultAzureCredential` to authenticate.
+                // Use these values if you want to use a User Managed Identity
+                UserAssignedManagedIdentityClientId = string.Empty,
+                // Use these values if you want to use a Service Principal to authorize
+                OAuthClientId = string.Empty,
+                OAuthClientSecret = string.Empty,
+                OAuthScope = string.Empty
+            };
 
-            {{/hasAuthMethods}}
-            {{#useHttpClient}}
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new {{classname}}(httpClient, config, httpClientHandler);
-            {{/useHttpClient}}
-            {{^useHttpClient}}
-            var apiInstance = new {{classname}}(config);
-            {{/useHttpClient}}
-            {{#allParams}}
-            {{#isPrimitiveType}}
-            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-            {{/isPrimitiveType}}
-            {{/allParams}}
-
+            var queryApi = new CopilotV3QueryApi(configuration);
+            var request = new QueryRequestV3
+            {
+                Ask = "Show me the Products that were produced on 3/30/2023 in BREADBLAST07?"
+            };
             try
             {
-                {{#summary}}
-                // {{{.}}}
-                {{/summary}}
-                {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
-                Debug.WriteLine(result);{{/returnType}}
+                var response = await queryApi.CopilotV3QueryPostAsync(
+                    ApiVersions.June2024Preview, 
+                    queryRequestV3: request);
+
+                Console.WriteLine("Response received from the API:");
+                Console.WriteLine(response.Result);
+                Console.WriteLine("Summary:");
+                Console.WriteLine(response.Summary);
             }
-            catch (ApiException e)
+            catch(ApiException e)
             {
-                Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
+                Console.WriteLine("An error occurred while invoking the API: " + e.Message);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+            }
+            Console.ReadLine();
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
     }
