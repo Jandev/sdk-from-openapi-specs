@@ -46,15 +46,6 @@ namespace {{packageName}}.Client.Auth
             _configuration = configuration;
             switch (flow)
             {
-                /*case OAuthFlow.ACCESS_CODE:
-                    _grantType = "authorization_code";
-                    break;
-                case OAuthFlow.IMPLICIT:
-                    _grantType = "implicit";
-                    break;
-                case OAuthFlow.PASSWORD:
-                    _grantType = "password";
-                    break;*/
                 case OAuthFlow.APPLICATION:
                     _grantType = "client_credentials";
                     break;
@@ -83,12 +74,12 @@ namespace {{packageName}}.Client.Auth
         /// <returns>An authentication token.</returns>
         async Task<string> GetToken()
         {
-            string applicationIdUri = this.configuration["BackendService:ApplicationIdUri"] ?? throw new InvalidOperationException("BackendService:ApplicationIdUri is not configured.");
+            string applicationIdUri = this.configuration.MdsApplicationIdUri ?? throw new InvalidOperationException("MdsApplicationIdUri is not configured.");
 
-			string userAssignedClientId = _clientId;
+			string userAssignedClientId = this.configuration.UserAssignedManagedIdentityClientId;
 			try
 			{
-				bool isRunningLocal = string.IsNullOrEmpty(userAssignedClientId);
+				bool isRunningLocal = string.IsNullOrEmpty(userAssignedClientId) && string.IsNullOrEmpty(_clientId);
 
                 AccessToken accessToken;
 				if (isRunningLocal)
@@ -98,15 +89,15 @@ namespace {{packageName}}.Client.Auth
 				}
 				else
 				{
-					_logger.LogInformation("Running in Azure. Using ManagedIdentityCredential with Managed Identity `{ManagedIdentityClientId}` to get access token.", userAssignedClientId);
-
                     if (string.IsNullOrEmpty(_clientSecret))
                     {
+                        _logger.LogInformation("Running in Azure. Using ManagedIdentityCredential with Managed Identity `{ManagedIdentityClientId}` to get access token.", userAssignedClientId);
                         accessToken = await GetManufacturingAccessTokenUserManagedIdentity(userAssignedClientId);
                         return "Bearer " + accessToken.Token;
                     }
                     else
                     {
+                        _logger.LogInformation("Running in Azure. Using Client Credentials flow with Client Id `{ClientId}` to get access token.", _clientId);
                         accessToken = GetManufacturingAccessTokenForServicePrincipal(_clientId, _clientSecret);
                     }
 					return "Bearer " + accessToken.Token;
