@@ -7,7 +7,6 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Azure.Identity;
 using Azure.Core;
-using Microsoft.Identity.Abstractions;
 
 namespace {{packageName}}.Client.Auth
 {
@@ -27,6 +26,8 @@ namespace {{packageName}}.Client.Auth
         readonly JsonSerializerSettings _serializerSettings;
         readonly IReadableConfiguration _configuration;
 
+        const string OBO = "obo";
+        const string CLIENT_CREDENTIALS = "client_credentials";
         /// <summary>
         /// Initialize the OAuth2 Authenticator
         /// </summary>
@@ -47,10 +48,10 @@ namespace {{packageName}}.Client.Auth
             switch (flow)
             {
                 case OAuthFlow.APPLICATION:
-                    _grantType = "client_credentials";
+                    _grantType = CLIENT_CREDENTIALS;
                     break;
                 case OAuthFlow.OBO:
-                    _grantType = "obo";
+                    _grantType = OBO;
                     break;
                 default:
                     break;
@@ -72,35 +73,33 @@ namespace {{packageName}}.Client.Auth
         /// Gets the token from the OAuth2 server.
         /// </summary>
         /// <returns>An authentication token.</returns>
-        async Task<string> GetToken()
+        private async Task<string> GetToken()
         {
-            string applicationIdUri = this.configuration.MdsApplicationIdUri ?? throw new InvalidOperationException("MdsApplicationIdUri is not configured.");
+            string applicationIdUri = this._configuration.MdsApplicationIdUri ?? throw new InvalidOperationException("MdsApplicationIdUri is not configured.");
 
-			string userAssignedClientId = this.configuration.UserAssignedManagedIdentityClientId;
+			string userAssignedClientId = this._configuration.UserAssignedManagedIdentityClientId;
 			try
 			{
 				bool isRunningLocal = string.IsNullOrEmpty(userAssignedClientId) && string.IsNullOrEmpty(_clientId);
 
-                AccessToken accessToken;
+                string accessToken;
 				if (isRunningLocal)
 				{
-					accessToken = await GetManufacturingAccessTokenDefaultIdentity();
-					return "Bearer " + accessToken.Token;
+					accessToken = await GetManufacturingAccessTokenDefaultIdentity(applicationIdUri);
+					return "Bearer " + accessToken;
 				}
 				else
 				{
                     if (string.IsNullOrEmpty(_clientSecret))
                     {
-                        _logger.LogInformation("Running in Azure. Using ManagedIdentityCredential with Managed Identity `{ManagedIdentityClientId}` to get access token.", userAssignedClientId);
-                        accessToken = await GetManufacturingAccessTokenUserManagedIdentity(userAssignedClientId);
-                        return "Bearer " + accessToken.Token;
+                        accessToken = await GetManufacturingAccessTokenUserManagedIdentity(userAssignedClientId, applicationIdUri);
+                        return "Bearer " + accessToken;
                     }
                     else
                     {
-                        _logger.LogInformation("Running in Azure. Using Client Credentials flow with Client Id `{ClientId}` to get access token.", _clientId);
-                        accessToken = GetManufacturingAccessTokenForServicePrincipal(_clientId, _clientSecret);
+                        accessToken = await GetManufacturingAccessTokenForServicePrincipal(_clientId, _clientSecret, applicationIdUri);
                     }
-					return "Bearer " + accessToken.Token;
+					return "Bearer " + accessToken;
 				}
 			}
 			catch (Exception ex)
@@ -109,40 +108,40 @@ namespace {{packageName}}.Client.Auth
 			}
         }
 
-        private static string GetManufacturingAccessTokenForServicePrincipal(string clientId, string clientSecret)
+        private async Task<string> GetManufacturingAccessTokenForServicePrincipal(string clientId, string clientSecret, string applicationIdUri)
         {
             string scopeToRequest;
-            if(onBehalfOfUser)
+            if(_grantType == OBO)
             {
-                scopeToRequest = _appliationIdUri + "/access_as_user";
+                scopeToRequest = applicationIdUri + "/access_as_user";
             }
             else
             {
-                scopeToRequest = _appliationIdUri + "/.default"; 
+                scopeToRequest = applicationIdUri + "/.default"; 
             }
 
             var credential = new ClientSecretCredential(
-                _tenantId,
+                this._configuration.OAuthTenantId,
                 clientId,
                 clientSecret
             );
 
-            var token = credential.GetToken(new TokenRequestContext(new[] { scopeToRequest })).Token;
-            return token;
+            var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { scopeToRequest }));
+            return token.Token;
         }
 
-        private static string GetManufacturingAccessTokenUserManagedIdentity(string userAssignedClientId)
+        private async Task<string> GetManufacturingAccessTokenUserManagedIdentity(string userAssignedClientId, string applicationIdUri)
         {
             var tokenCredential = new ManagedIdentityCredential(userAssignedClientId);
 
             string scopeToRequest;
-            if(_onBehalfOfUser)
+            if(_grantType == OBO)
             {
-                scopeToRequest = _appliationIdUri + "/access_as_user";
+                scopeToRequest = applicationIdUri + "/access_as_user";
             }
             else
             {
-                scopeToRequest = _appliationIdUri + "/.default"; 
+                scopeToRequest = applicationIdUri + "/.default"; 
             }
 
             var accessToken = await tokenCredential.GetTokenAsync(
@@ -152,30 +151,12 @@ namespace {{packageName}}.Client.Auth
             return accessToken.Token;
         }
 
-        private string GetManufacturingAccessTokenDefaultIdentity()
+        private async Task<string> GetManufacturingAccessTokenDefaultIdentity(string applicationIdUri)
         {
-            string scopeToRequest;
-            if(_onBehalfOfUser)
-            {
-                scopeToRequest = _appliationIdUri + "/access_as_user";
-            }
-            else
-            {
-                scopeToRequest = _appliationIdUri + "/.default"; 
-            }
-
             var credential = new DefaultAzureCredential();
-            TokenRequestContext tokenRequest;
-            if (_onBehalfOfUser)
-            {
-                tokenRequest = new TokenRequestContext(new[] { manufacturingResourceUri }, scopes: new string[] { scopeToRequest });
-            }
-            else
-            {
-                tokenRequest = new TokenRequestContext(new[] { manufacturingResourceUri });
-            }
-            var token = credential.GetToken(tokenRequest).Token;
-            return token;
+            var tokenRequest = new TokenRequestContext(new[] { applicationIdUri });
+            var token = await credential.GetTokenAsync(tokenRequest);
+            return token.Token;
         }
     }
 }

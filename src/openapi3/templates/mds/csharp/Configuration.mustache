@@ -340,12 +340,18 @@ namespace {{packageName}}.Client
         /// Gets or sets the client secret for OAuth2 authentication.
         /// </summary>
         /// <value>The OAuth Client Secret.</value>
-        /// /// <remarks>
+        /// <remarks>
         /// Used for the OAuth2 client credentials flow.
         /// Be sure to also add a value for <see cref="OAuthClientId"/> and <see cref="OAuthScope"/>.
         /// Only when all of these values are set, the client credentials flow is used.
         /// </remarks>
         public virtual string OAuthClientSecret { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Tenant Id that will be used to create a token.
+        /// </summary>
+        /// <value>The Tenant Id to use</value>
+        public virtual string OAuthTenantId { get; set; }
 
         /// <summary>
         /// Gets or sets the client scope for OAuth2 authentication.
@@ -638,6 +644,8 @@ namespace {{packageName}}.Client
                 ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
                 UseDefaultCredentials = second.UseDefaultCredentials,
                 RemoteCertificateValidationCallback = second.RemoteCertificateValidationCallback ?? first.RemoteCertificateValidationCallback,
+                MdsApplicationIdUri = second.MdsApplicationIdUri ?? first.MdsApplicationIdUri,
+                UserAssignedManagedIdentityClientId = second.UserAssignedManagedIdentityClientId ?? first.UserAssignedManagedIdentityClientId,                
             };
             return config;
         }
