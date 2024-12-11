@@ -7,8 +7,8 @@ Console.WriteLine("Hello user! We're now going to invoke the Manufacturing Copil
 
 var gpt4oInstance = new
 {
-	BaseUrl = "https://dmm-b2jozt525kgyi.eastus2.cloudapp.azure.com",
-	ApplicationIdUri = "api://d00fcb82-0a89-4a4b-bdee-33adac1bbdb4"
+	BaseUrl = "https://[your-mds-instance].eastus2.cloudapp.azure.com",
+	ApplicationIdUri = "api://[your-application-id]"
 };
 
 var instanceToUse = gpt4oInstance;
