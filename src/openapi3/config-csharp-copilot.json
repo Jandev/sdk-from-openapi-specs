@@ -5,7 +5,7 @@
     "templateDir" : "./src/openapi3/templates/mds/csharp",
     "packageName" : "Microsoft.Industry.Manufacturing.Copilot.Sdk",
     "outputDir" : "./src/generated/copilot/csharp",
-    "inputSpec" : "./src/openapi-specs/copilot-080-preview.yaml", 
+    "inputSpec" : "./src/openapi-specs/mds-copilot-100-preview.yaml", 
     "packageVersion" : "1.0.0-preview",
     "packageDescription" : "Official .NET SDK for the Microsoft Cloud for Industries - Manufacturing data solutions in Microsoft Fabric",
     "packageTitle" : "Official .NET SDK for the Manufacturing data solutions in Microsoft Fabric",

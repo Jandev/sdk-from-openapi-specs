@@ -1,9 +1,9 @@
 openapi: 3.0.1
 info:
   title: Microsoft.Industry.Manufacturing.MDS.Copilot.Server
-  version: '0.8.0-preview'
+  version: '1.0'
 paths:
-  /copilot/v3/exampleQuery:
+  /mds/copilot/v3/exampleQuery:
     put:
       tags:
         - CopilotExamples
@@ -109,7 +109,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExampleQuery'
-  /copilot/v3/aliases:
+  /mds/copilot/v3/aliases:
     put:
       tags:
         - CopilotV3AliasDictionary
@@ -227,7 +227,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AliasDictionaryResponseModel'
-  '/copilot/v3/aliases/{id}':
+  '/mds/copilot/v3/aliases/{id}':
     delete:
       tags:
         - CopilotV3AliasDictionary
@@ -409,7 +409,7 @@ paths:
             text/json:
               schema:
                 type: string
-  '/copilot/v3/exampleQuery/{exampleId}':
+  '/mds/copilot/v3/exampleQuery/{exampleId}':
     patch:
       tags:
         - CopilotV3Examples
@@ -560,7 +560,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  /copilot/v3/instructions:
+  /mds/copilot/v3/instructions:
     get:
       tags:
         - CopilotV3Instructions
@@ -646,7 +646,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/copilot/v3/instructions/{instructionId}':
+  '/mds/copilot/v3/instructions/{instructionId}':
     get:
       tags:
         - CopilotV3Instructions
@@ -741,7 +741,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/copilot/v3/instructions/{instructionId}/versions/{instructionVersion}':
+  '/mds/copilot/v3/instructions/{instructionId}/versions/{instructionVersion}':
     patch:
       tags:
         - CopilotV3Instructions
@@ -837,7 +837,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/copilot/v3/operations/{operationId}':
+  '/mds/copilot/v3/operations/{operationId}':
     get:
       tags:
         - CopilotV3Operations
@@ -881,7 +881,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  /copilot/v3/query:
+  /mds/copilot/v3/query:
     post:
       tags:
         - CopilotV3Query
@@ -977,7 +977,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  /copilot/v3/feedback:
+  /mds/copilot/v3/feedback:
     post:
       tags:
         - CopilotV3Query
@@ -1009,7 +1009,7 @@ paths:
       responses:
         '200':
           description: Success
-  /copilot/v3/validate:
+  /mds/copilot/v3/validate:
     post:
       tags:
         - CopilotV3Query
@@ -1053,7 +1053,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/copilot/v3/validate/test/{validateTestId}':
+  '/mds/copilot/v3/validate/test/{validateTestId}':
     get:
       tags:
         - CopilotV3Query
@@ -1098,7 +1098,7 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  /copilot/v3/validate/test:
+  /mds/copilot/v3/validate/test:
     get:
       tags:
         - CopilotV3Query

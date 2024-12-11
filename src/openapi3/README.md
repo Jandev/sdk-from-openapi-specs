@@ -11,7 +11,7 @@ These files contain a couple of errors causing the OpenAPI generator not being a
 > [!WARNING]
 > These changes will cause incompatibilities with the actual endpoints.
 
-### mds-080-preview.yaml
+### mds-service-100-preview.yaml
 
 This file has the following modifications.
 
@@ -133,17 +133,17 @@ Validating the files before generating code from it can be done with the followi
 
 ```powershell
 java -jar openapi-generator-cli.jar validate `
-    -i ./src/openapi-specs/copilot-080-preview.yaml
+    -i ./src/openapi-specs/mds-copilot-100-preview.yaml
 
 java -jar openapi-generator-cli.jar validate `
-    -i ./src/openapi-specs/mds-080-preview.yaml
+    -i ./src/openapi-specs/mds-service-100-preview.yaml
 ```
 
 ### Create a simple SDK
 
 #### C# / csharp
 
-To create a simple SDK based on the [copilot-080-preview.yaml](./src/openapi-specs/copilot-080-preview.yaml) specifications, you can use the following command.
+To create a simple SDK based on the [mds-copilot-100-preview.yaml](./src/openapi-specs/mds-copilot-100-preview.yaml) specifications, you can use the following command.
 
 ```powershell
 java -jar openapi-generator-cli.jar generate `
@@ -151,7 +151,7 @@ java -jar openapi-generator-cli.jar generate `
     -c ./src/openapi3/config-csharp-copilot.json
 ```
 
-To create a simple SDK based on the [mds-080-preview.yaml](./src/openapi-specs/mds-080-preview.yaml) specifications, you can use the following command.
+To create a simple SDK based on the [mds-service-100-preview.yaml](./src/openapi-specs/mds-service-100-preview.yaml) specifications, you can use the following command.
 
 ```powershell
 java -jar openapi-generator-cli.jar generate `
@@ -161,7 +161,7 @@ java -jar openapi-generator-cli.jar generate `
 
 #### Python
 
-To create a simple SDK based on the [copilot-080-preview.yaml](./src/openapi-specs/copilot-080-preview.yaml) specifications, you can use the following command.
+To create a simple SDK based on the [mds-copilot-100-preview.yaml](./src/openapi-specs/mds-copilot-100-preview.yaml) specifications, you can use the following command.
 
 ```powershell
 java -jar openapi-generator-cli.jar generate `
@@ -169,7 +169,7 @@ java -jar openapi-generator-cli.jar generate `
     -c ./src/openapi3/config-python-copilot.json
 ```
 
-To create a simple SDK based on the [mds-080-preview.yaml](./src/openapi-specs/mds-080-preview.yaml) specifications, you can use the following command.
+To create a simple SDK based on the [mds-service-100-preview.yaml](./src/openapi-specs/mds-service-100-preview.yaml) specifications, you can use the following command.
 
 ```powershell
 java -jar openapi-generator-cli.jar generate `
