@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Microsoft.Industry.Manufacturing.Copilot.Sdk.Api;
-using Microsoft.Industry.Manufacturing.Copilot.Sdk.Client;
-using Microsoft.Industry.Manufacturing.Copilot.Sdk.Model;
+using Jandev.Industry.Manufacturing.Copilot.Sdk.Api;
+using Jandev.Industry.Manufacturing.Copilot.Sdk.Client;
+using Jandev.Industry.Manufacturing.Copilot.Sdk.Model;
 
 Console.WriteLine("Hello user! We're now going to invoke the Manufacturing Copilot endpoints using the generated SDK code.");
 
@@ -33,8 +33,8 @@ var request = new QueryRequestV3
 };
 try
 {
-	var response = await queryApi.CopilotV3QueryPostAsync(
-		ApiVersions.June2024Preview, 
+	var response = await queryApi.MdsCopilotV3QueryPostAsync(
+		ApiVersions.June2024Preview,
 		queryRequestV3: request);
 
 	Console.WriteLine("Response received from the API:");
@@ -42,7 +42,7 @@ try
 	Console.WriteLine("Summary:");
 	Console.WriteLine(response.Summary);
 }
-catch(ApiException e)
+catch (ApiException e)
 {
 	Console.WriteLine("An error occurred while invoking the API: " + e.Message);
 }

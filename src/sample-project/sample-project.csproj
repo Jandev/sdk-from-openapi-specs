@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\generated\copilot\csharp\src\Microsoft.Industry.Manufacturing.Copilot.Sdk\Microsoft.Industry.Manufacturing.Copilot.Sdk.csproj" />
+    <ProjectReference Include="..\generated\copilot\csharp\src\Jandev.Industry.Manufacturing.Copilot.Sdk\Jandev.Industry.Manufacturing.Copilot.Sdk.csproj" />
   </ItemGroup>
 
 </Project>
