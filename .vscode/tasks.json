@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Generate Copilot SDK (C#)",
+      "type": "shell",
+      "command": "if command -v java >/dev/null 2>&1; then java -jar openapi-generator-cli.jar generate -g csharp -c ./src/openapi3/config-csharp-copilot.json; elif command -v docker >/dev/null 2>&1; then docker run --rm -u \"$(id -u):$(id -g)\" -v \"${workspaceFolder}:/local\" openapitools/openapi-generator-cli generate -g csharp -c /local/src/openapi3/config-csharp-copilot.json; else echo \"Neither Java nor Docker was found. Install Java (recommended) or Docker Desktop.\"; exit 1; fi",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate Copilot SDK (Python)",
+      "type": "shell",
+      "command": "if command -v java >/dev/null 2>&1; then java -jar openapi-generator-cli.jar generate -g python -c ./src/openapi3/config-python-copilot.json; elif command -v docker >/dev/null 2>&1; then docker run --rm -u \"$(id -u):$(id -g)\" -v \"${workspaceFolder}:/local\" openapitools/openapi-generator-cli generate -g python -c /local/src/openapi3/config-python-copilot.json; else echo \"Neither Java nor Docker was found. Install Java (recommended) or Docker Desktop.\"; exit 1; fi",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate MDS SDK (C#)",
+      "type": "shell",
+      "command": "if command -v java >/dev/null 2>&1; then java -jar openapi-generator-cli.jar generate -g csharp -c ./src/openapi3/config-csharp-mds.json; elif command -v docker >/dev/null 2>&1; then docker run --rm -u \"$(id -u):$(id -g)\" -v \"${workspaceFolder}:/local\" openapitools/openapi-generator-cli generate -g csharp -c /local/src/openapi3/config-csharp-mds.json; else echo \"Neither Java nor Docker was found. Install Java (recommended) or Docker Desktop.\"; exit 1; fi",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate MDS SDK (Python)",
+      "type": "shell",
+      "command": "if command -v java >/dev/null 2>&1; then java -jar openapi-generator-cli.jar generate -g python -c ./src/openapi3/config-python-mds.json; elif command -v docker >/dev/null 2>&1; then docker run --rm -u \"$(id -u):$(id -g)\" -v \"${workspaceFolder}:/local\" openapitools/openapi-generator-cli generate -g python -c /local/src/openapi3/config-python-mds.json; else echo \"Neither Java nor Docker was found. Install Java (recommended) or Docker Desktop.\"; exit 1; fi",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Sample Project",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "./src/sample-project/Generated-SDK.sln"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Clean Slate",
+      "type": "shell",
+      "command": "sh",
+      "args": [
+        "-c",
+        "rm -rf ./src/generated; if [ -d ./src ]; then find ./src -type d \\( -name bin -o -name obj \\) -prune -exec rm -rf {} +; fi"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-Command",
+          "if (Test-Path './src/generated') { Remove-Item './src/generated' -Recurse -Force }; if (Test-Path './src') { Get-ChildItem -Path './src' -Directory -Recurse -Force | Where-Object { $_.Name -eq 'bin' -or $_.Name -eq 'obj' } | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue } }"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
