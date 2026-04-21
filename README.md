@@ -21,37 +21,90 @@ This tool relies on both Java and Maven installed on your system.
 
 #### Java
 
-The following command  will install a Java version on your system, as provided in the [MS Learn docs](https://learn.microsoft.com/en-us/java/openjdk/install#install-on-windows-with-the-windows-package-manager-winget).
+Install JDK 21 on your platform:
 
-> [!NOTE]
-> This command requires a Terminal session with Administrator privileges.
+Windows (as documented in [MS Learn](https://learn.microsoft.com/en-us/java/openjdk/install#install-on-windows-with-the-windows-package-manager-winget)):
 
 ```powershell
 winget install Microsoft.OpenJDK.21
 ```
 
-In a new Terminal session, you should be able to run `java --version` to see which version got installed.
+macOS (Homebrew):
+
+```bash
+brew install openjdk@21
+```
+
+Linux:
+
+```bash
+# Debian/Ubuntu
+sudo apt update && sudo apt install -y openjdk-21-jdk
+
+# Fedora/RHEL
+sudo dnf install -y java-21-openjdk-devel
+```
+
+> [!TIP]
+> If you have multiple Java versions installed, set `JAVA_HOME` to JDK 21 before running Maven.
+
+Verify the installation:
+
+```bash
+java --version
+```
 
 #### Maven
 
-Maven can be [downloaded from the official Apache Maven Project page](https://maven.apache.org/download.cgi). The Binary zip archive is good enough for this use-case.
+Install Maven on your platform:
 
-Extract the contents of the package to a folder of your choosing. adding it to my `C:\Tools\` folder.
-Once extracted, be sure to add the `bin`-folder, containing the `mvn` file, to your `%PATH%`
+Windows:
 
-In a new Terminal session, you should be able to run `mvn --version` to see which version got installed.
+```powershell
+winget install Apache.Maven
+```
+
+macOS (Homebrew):
+
+```bash
+brew install maven
+```
+
+Linux:
+
+```bash
+# Debian/Ubuntu
+sudo apt install -y maven
+
+# Fedora/RHEL
+sudo dnf install -y maven
+```
+
+Verify the installation:
+
+```bash
+mvn --version
+```
 
 #### OpenAPI Generator
 
 The easiest way to work with the generator is [by installing the JAR file](https://openapi-generator.tech/docs/installation#jar) in the root of this repository.
 
+Windows:
+
 ```powershell
 Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.9.0/openapi-generator-cli-7.9.0.jar
 ```
 
+macOS / Linux:
+
+```bash
+curl -fL "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.9.0/openapi-generator-cli-7.9.0.jar" -o "openapi-generator-cli.jar"
+```
+
 You should be able to run the following command and get details on the generator.
 
-```powershell
+```bash
 java -jar openapi-generator-cli.jar help
 ```
 
